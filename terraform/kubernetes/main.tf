@@ -350,6 +350,14 @@ resource "kubernetes_deployment" "deployment_autoneg_controller_manager" {
       }
     }
   }
+
+  lifecycle {
+    ignore_changes = [
+      metadata[0].annotations["autopilot.gke.io/resource-adjustment"],
+      metadata[0].annotations["autopilot.gke.io/warden-version"]
+    ]
+  }
+
   depends_on = [
     kubernetes_role_binding.rolebinding_autoneg_leader_election_rolebinding,
     kubernetes_cluster_role_binding.clusterrolebinding_autoneg_manager_rolebinding,
