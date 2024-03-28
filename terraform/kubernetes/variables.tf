@@ -24,6 +24,7 @@ variable "controller_resources" {
   })
 
   description = "Autoneg controller resource settings"
+  nullable = false
   default = {
     limits = {
       cpu    = "100m"
@@ -42,6 +43,7 @@ variable "controller_security_capabilities" {
     drop = optional(list(string))
   })
   description = "Autoneg controller security capabilities"
+  nullable = false
   default = {
     add  = []
     drop = ["NET_RAW"]
@@ -92,6 +94,7 @@ variable "proxy_resources" {
   })
 
   description = "Autoneg proxy resource settings"
+  nullable = false
   default = {
     limits = {
       cpu    = "100m"
@@ -110,6 +113,7 @@ variable "proxy_security_capabilities" {
     drop = optional(list(string))
   })
   description = "Autoneg proxy security capabilities"
+  nullable = false
   default = {
     add  = []
     drop = ["NET_RAW"]
@@ -122,6 +126,7 @@ variable "seccom_profile" {
     localhost_profile = optional(string)
   })
   description = "Autoneg deployment seccom profile settings"
+  nullable = false
   default = {
     type = "RuntimeDefault"
   }
@@ -146,6 +151,7 @@ variable "toleration" {
     value    = optional(string)
   })
   description = "Autoneg deployment toleration settings"
+  nullable = false
   default = {
     effect   = "NoSchedule"
     key      = "kubernetes.io/arch"
