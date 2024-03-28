@@ -282,6 +282,10 @@ resource "kubernetes_deployment" "deployment_autoneg_controller_manager" {
 
         security_context {
           run_as_non_root = true
+          seccomp_profile {
+            type              = var.seccom_profile.type
+            localhost_profile = var.seccom_profile.localhost_profile
+          }
         }
 
         container {
@@ -296,6 +300,10 @@ resource "kubernetes_deployment" "deployment_autoneg_controller_manager" {
           security_context {
             allow_privilege_escalation = false
             privileged                 = false
+            capabilities {
+              add  = var.controller_security_capabilities.add
+              drop = var.controller_security_capabilities.drop
+            }
           }
 
           liveness_probe {
@@ -317,14 +325,8 @@ resource "kubernetes_deployment" "deployment_autoneg_controller_manager" {
           }
 
           resources {
-            limits = {
-              cpu    = "100m"
-              memory = "30Mi"
-            }
-            requests = {
-              cpu    = "100m"
-              memory = "20Mi"
-            }
+            limits   = var.controller_resources.limits
+            requests = var.controller_resources.requests
           }
         }
 
@@ -339,6 +341,10 @@ resource "kubernetes_deployment" "deployment_autoneg_controller_manager" {
           security_context {
             allow_privilege_escalation = false
             privileged                 = false
+            capabilities {
+              add  = var.proxy_security_capabilities.add
+              drop = var.proxy_security_capabilities.drop
+            }
           }
 
           port {
@@ -346,6 +352,18 @@ resource "kubernetes_deployment" "deployment_autoneg_controller_manager" {
             name           = "https"
             protocol       = "TCP"
           }
+
+          resources {
+            limits   = var.proxy_resources.limits
+            requests = var.proxy_resources.requests
+          }
+        }
+
+        toleration {
+          effect   = var.toleration.effect
+          key      = var.toleration.key
+          operator = var.toleration.operator
+          value    = var.toleration.value
         }
       }
     }
