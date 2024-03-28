@@ -39,11 +39,17 @@ module "gcp" {
 module "kubernetes" {
   source = "../kubernetes"
 
-  project_id            = var.project_id
-  controller_image      = var.controller_image
-  image_pull_policy     = var.image_pull_policy
-  kube_rbac_proxy_image = var.kube_rbac_proxy_image
-  priority_class_name   = var.priority_class_name
-  service_account_email = module.gcp.service_account_email
-  workload_identity     = var.workload_identity
+  project_id                       = var.project_id
+  controller_image                 = var.controller_image
+  image_pull_policy                = var.image_pull_policy
+  kube_rbac_proxy_image            = var.kube_rbac_proxy_image
+  priority_class_name              = var.priority_class_name
+  service_account_email            = module.gcp.service_account_email
+  controller_security_capabilities = var.controller_security_capabilities
+  controller_resources             = var.controller_resources
+  proxy_resources                  = var.proxy_resources
+  proxy_security_capabilities      = var.proxy_security_capabilities
+  seccom_profile                   = var.seccom_profile
+  toleration                       = var.toleration
+  workload_identity                = var.workload_identity
 }
